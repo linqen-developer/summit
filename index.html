@@ -874,13 +874,13 @@
               <input type="text" placeholder="담당자명" class="w-full px-6 py-4 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
             </div>
             <input type="email" placeholder="이메일" class="w-full px-6 py-4 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-            <select class="w-full px-6 py-4 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-              <option value="" selected disabled>문의 유형 선택</option>
-              <option value="it">IT 컨설팅</option>
-              <option value="ecommerce">E-commerce 문의</option>
-              <option value="brand">K브랜드 에이전시</option>
-              <option value="export">K-goods 수출</option>
-              <option value="other">기타 문의</option>
+            <select class="w-full px-6 py-4 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+              <option value="">문의 유형 선택</option>
+              <option value="IT 컨설팅">IT 컨설팅</option>
+              <option value="E-commerce 문의">E-commerce 문의</option>
+              <option value="K브랜드 에이전시">K브랜드 에이전시</option>
+              <option value="K-goods 수출">K-goods 수출</option>
+              <option value="기타 문의">기타 문의</option>
             </select>
             <textarea rows="5" placeholder="문의내용" class="w-full px-6 py-4 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
             <div class="flex items-center">
@@ -1176,17 +1176,40 @@
     function handleSubmit(event) {
       event.preventDefault();
       
-      // 폼 데이터 가져오기
-      const company = document.querySelector('input[placeholder="회사명"]').value;
-      const name = document.querySelector('input[placeholder="담당자명"]').value;
-      const email = document.querySelector('input[type="email"]').value;
+      // 폼 데이터 가져오기 - querySelector를 좀 더 명확하게 지정
+      const company = document.querySelector('input[placeholder="회사명"]').value.trim();
+      const name = document.querySelector('input[placeholder="담당자명"]').value.trim();
+      const email = document.querySelector('input[type="email"]').value.trim();
       const type = document.querySelector('select').value;
-      const message = document.querySelector('textarea').value;
+      const message = document.querySelector('textarea').value.trim();
       const privacy = document.querySelector('#privacy').checked;
 
-      // 유효성 검사
-      if (!company || !name || !email || !type || !message) {
-        alert('모든 필드를 입력해주세요.');
+      // 디버깅을 위한 콘솔 로그
+      console.log({company, name, email, type, message, privacy});
+
+      // 유효성 검사 수정
+      if (!company) {
+        alert('회사명을 입력해주세요.');
+        return false;
+      }
+      
+      if (!name) {
+        alert('담당자명을 입력해주세요.');
+        return false;
+      }
+      
+      if (!email) {
+        alert('이메일을 입력해주세요.');
+        return false;
+      }
+      
+      if (!type || type === "문의 유형 선택") {
+        alert('문의 유형을 선택해주세요.');
+        return false;
+      }
+      
+      if (!message) {
+        alert('문의 내용을 입력해주세요.');
         return false;
       }
 

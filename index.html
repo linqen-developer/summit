@@ -1181,17 +1181,6 @@
       <!-- 모바일 메뉴 내용 -->
     </div>
 
-    <!-- 모바일 메뉴 토글 -->
-    <script>
-      // 모바일 메뉴 토글
-      const mobileMenuButton = document.getElementById('mobile-menu-button');
-      const mobileMenu = document.getElementById('mobile-menu');
-
-      mobileMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-    </script>
-
     <!-- JavaScript 추가 -->
     <script>
       const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -1243,34 +1232,11 @@
         const subject = encodeURIComponent(`[문의하기] ${company}`);
         const body = encodeURIComponent(emailContent);
         
-        // 1. mailto 링크에 제목과 본문 포함
+        // mailto 링크 생성
         const mailtoHref = `mailto:kevinj@summitexportslimited.com?subject=${subject}&body=${body}`;
         
-        // 2. 사용자에게 미리 안내
-        alert('이메일 클라이언트가 열릴 예정입니다. 열리지 않으면 아래 주소로 직접 문의해주세요:\nkevinj@summitexportslimited.com');
-        
-        // 3. 클립보드 복사 시도 (실패해도 계속 진행)
-        try {
-          navigator.clipboard.writeText(emailContent).then(() => {
-            console.log('클립보드 복사 성공');
-          }).catch(err => {
-            console.error('클립보드 복사 실패:', err);
-          });
-        } catch (clipboardError) {
-          console.error('클립보드 API 오류:', clipboardError);
-        }
-        
-        // 4. 링크 생성 및 열기 (문서에 추가 후 클릭)
-        const mailtoLink = document.createElement('a');
-        mailtoLink.href = mailtoHref;
-        document.body.appendChild(mailtoLink);
-        mailtoLink.click();
-        document.body.removeChild(mailtoLink);
-        
-        // 5. 대체 방법으로 window.open 시도
-        setTimeout(() => {
-          window.open(mailtoHref, '_self');
-        }, 500);
+        // mailto 링크 열기
+        window.location.href = mailtoHref;
         
         // 폼 초기화
         document.getElementById('contactForm').reset();
